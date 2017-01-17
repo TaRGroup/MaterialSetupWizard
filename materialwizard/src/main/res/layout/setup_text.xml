@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:background="@mipmap/common_setup_wizard_illustration_tile"
+    android:layout_width="match_parent"
+    android:layout_height="70dp"
+    android:layout_alignParentBottom="true"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <TextView
+        android:layout_marginLeft="16dp"
+        android:gravity="center_vertical"
+        android:layout_height="match_parent"
+        android:textSize="32sp"
+        android:layout_width="match_parent"
+        android:text="@string/app_name"
+        android:textColor="#FFFFFF"
+        android:id="@+id/setupTextView1"/>
+</RelativeLayout>
