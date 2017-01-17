@@ -1,2 +1,2 @@
 # MaterialSetupWizard
-Beautiful, highly google-like setting up experience, for your Android device only
+Beautiful, highly Google-like setting up experience, for your Android device only
