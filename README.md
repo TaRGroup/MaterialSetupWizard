@@ -1,13 +1,26 @@
 # MaterialSetupWizard
 Beautiful, highly Google-like setting up experience, for your Android device only.
 Support API 11+.
+[![](https://jitpack.io/v/TaRGroup/MaterialSetupWizard.svg)](https://jitpack.io/#TaRGroup/MaterialSetupWizard)
 
 喜欢的话别忘了 **Star** 和 **Watch**，有问题随意**Issues**~
 ![Screenshot1](https://raw.githubusercontent.com/TaRGroup/MaterialSetupWizard/master/image/screenshot-1-device-2017-01-18-131830.png)![Screenshot2](https://raw.githubusercontent.com/TaRGroup/MaterialSetupWizard/master/image/screenshot-2-photo6339210114027857836.jpg)
 
 # 用法
 ## 添加依赖
-_尚未开发完成，请稍后_
+1. 在项目级build.gradle找到相应位置添加（若已有就跳过）：
+```grooxy
+	allprojects {
+		repositories {
+			...
+			maven { url 'https://jitpack.io' }
+		}
+	}
+```
+2. 添加依赖：
+```grooxy
+compile 'com.github.TaRGroup:MaterialSetupWizard:alpha1'
+```
 ## 创建WizardActivity
 你需要创建一个新的类，将其继承 `WizardActivity`:
 [例子:Act.java](https://github.com/TaRGroup/MaterialSetupWizard/blob/master/app/src/main/java/kh/android/materialsetupwizard/Act.java)
