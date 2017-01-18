@@ -155,6 +155,7 @@ _以下方法均有**getter**方法_
 ### `PageFragment`
 
 返回标题 `getTitle (Context context)`
+**注意！若需要从资源读取标题，会触发异常。由于读取标题时Fragment未添加到Activity。请使用getTitle的Context参数获取资源。并且更新标题和顶部背景图片后需要调用`updateTitle()`**
 
 返回视图 `onCreateView (LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState)`
 
