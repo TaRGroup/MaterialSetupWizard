@@ -1,5 +1,6 @@
 package kh.android.materialwizard;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +18,7 @@ public class ProgressFragment extends PageFragment {
     }
 
     @Override
-    public String getTitle() {
-        return "Loading..";
+    public String getTitle(Context context) {
+        return context.getString(R.string.title_progress);
     }
 }

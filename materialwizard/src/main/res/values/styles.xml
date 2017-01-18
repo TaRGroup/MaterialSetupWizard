@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="ProgressBar" parent="Base.Widget.AppCompat.ProgressBar.Horizontal">
+    <style name="WizardStyle" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorAccent">#FFE5A900</item>
     </style>
-    <style name="WizardStyle" parent="Theme.AppCompat.Light.NoActionBar" />
 </resources>

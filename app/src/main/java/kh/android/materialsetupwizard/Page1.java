@@ -1,5 +1,6 @@
 package kh.android.materialsetupwizard;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,11 +21,12 @@ public class Page1 extends PageFragment implements View.OnClickListener{
         view.findViewById(R.id.button_show_progress).setOnClickListener(this);
         view.findViewById(R.id.button_collapse_app_bar).setOnClickListener(this);
         view.findViewById(R.id.button_expand_app_bar).setOnClickListener(this);
+        view.findViewById(R.id.button_swipe).setOnClickListener(this);
         return view;
     }
 
     @Override
-    public String getTitle() {
+    public String getTitle(Context context) {
         return "Page1";
     }
 
@@ -39,6 +41,11 @@ public class Page1 extends PageFragment implements View.OnClickListener{
                 break;
             case R.id.button_expand_app_bar :
                 getWizardActivity().setAppBarExpanded(true);
+                break;
+            case R.id.button_swipe :
+                getWizardActivity().setEnableSwipe(
+                        !getWizardActivity().getEnableSwipe()
+                );
                 break;
         }
     }

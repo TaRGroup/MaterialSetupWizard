@@ -1,16 +1,11 @@
 package kh.android.materialwizard;
 
-import android.graphics.Rect;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -26,7 +21,7 @@ import java.util.List;
  */
 
 public abstract class WizardActivity extends AppCompatActivity {
-    ViewPager mViewPager;
+    WizardViewPager mViewPager;
     TextView mTextViewTitle;
     List<PageFragment> mPages;
     Adapter mPagerAdapter;
@@ -40,8 +35,9 @@ public abstract class WizardActivity extends AppCompatActivity {
     @CallSuper
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTheme(R.style.WizardStyle);
         setContentView(R.layout.setup);
-        mViewPager = (ViewPager) findViewById(R.id.pager);
+        mViewPager = (WizardViewPager) findViewById(R.id.pager);
         mTextViewTitle = (TextView) findViewById(R.id.setupTextView1);
         mAppBar = (RelativeLayout)findViewById(R.id.appbar);
         mAppBarText = findViewById(R.id.include_app_bar_text);
@@ -68,7 +64,7 @@ public abstract class WizardActivity extends AppCompatActivity {
         });
         mPagerAdapter = new Adapter();
         mViewPager.setAdapter(mPagerAdapter);
-        mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener(){
+        mViewPager.setOnPageChangeListener(new WizardViewPager.OnPageChangeListener(){
             @Override
             public void onPageScrolled(int p1, float p2, int p3) {
             }
@@ -76,8 +72,7 @@ public abstract class WizardActivity extends AppCompatActivity {
             @Override
             public void onPageSelected(int p1) {
                 updateButton();
-                AnimationUtil.changeText(mPages.get(p1).getTitle(), mTextViewTitle);
-
+                AnimationUtil.changeText(mPages.get(p1).getTitle(WizardActivity.this), mTextViewTitle);
             }
 
             @Override
@@ -142,6 +137,10 @@ public abstract class WizardActivity extends AppCompatActivity {
         mPages.add(fragment);
         mPagerAdapter.notifyDataSetChanged();
         updateButton();
+        if (mPages.size() == 1) {
+            // This is first page.
+            AnimationUtil.changeText(fragment.getTitle(WizardActivity.this), mTextViewTitle);
+        }
     }
 
     /**
@@ -152,6 +151,10 @@ public abstract class WizardActivity extends AppCompatActivity {
         mPages.remove(fragment);
         mPagerAdapter.notifyDataSetChanged();
         updateButton();
+        if (mPages.size() == 0) {
+            // This is last page.
+            AnimationUtil.changeText(getString(R.string.app_name), mTextViewTitle);
+        }
     }
 
     /**
@@ -162,6 +165,10 @@ public abstract class WizardActivity extends AppCompatActivity {
         mPages.remove(pos);
         mPagerAdapter.notifyDataSetChanged();
         updateButton();
+        if (mPages.size() == 0) {
+            // This is last page.
+            AnimationUtil.changeText(getString(R.string.app_name), mTextViewTitle);
+        }
     }
 
     /**
@@ -381,7 +388,7 @@ public abstract class WizardActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.frame_temp, mTempPage)
                 .commitAllowingStateLoss();
-        AnimationUtil.changeText(fragment.getTitle(), mTextViewTitle);
+        AnimationUtil.changeText(fragment.getTitle(WizardActivity.this), mTextViewTitle);
     }
 
     /**
@@ -397,7 +404,29 @@ public abstract class WizardActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction()
                 .remove(mTempPage)
                 .commitAllowingStateLoss();
-        AnimationUtil.changeText(mPages.get(mViewPager.getCurrentItem()).getTitle(), mTextViewTitle);
+        AnimationUtil.changeText(mPages.get(mViewPager.getCurrentItem()).getTitle(WizardActivity.this), mTextViewTitle);
         mTempPage = null;
+    }
+
+    /**
+     * @param enable Enable viewpager swipe. As default is false.
+     */
+    public void setEnableSwipe (boolean enable) {
+        mViewPager.setEnableSwipe(enable);
+    }
+
+    /**
+     * Get is enable viewpager swipe
+     * @return Is enable swipe
+     */
+    public boolean getEnableSwipe () {
+        return mViewPager.getEnableSwipe();
+    }
+
+    /**
+     * Update current page title
+     */
+    public void updateTitle () {
+        AnimationUtil.changeText(mPages.get(getCurrentPage()).getTitle(WizardActivity.this), mTextViewTitle);
     }
 }

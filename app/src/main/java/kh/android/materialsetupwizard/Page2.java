@@ -1,5 +1,6 @@
 package kh.android.materialsetupwizard;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,7 +20,7 @@ public class Page2 extends PageFragment {
     }
 
     @Override
-    public String getTitle () {
+    public String getTitle (Context context) {
         return "Page2";
     }
 }

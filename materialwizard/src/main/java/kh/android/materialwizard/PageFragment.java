@@ -1,5 +1,6 @@
 package kh.android.materialwizard;
 
+import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -27,7 +28,7 @@ public abstract class PageFragment extends Fragment {
      * Set page title
      * @return Page Title
      */
-    public abstract String getTitle ();
+    public abstract String getTitle (Context context);
 
     /**
      * Set title background image
