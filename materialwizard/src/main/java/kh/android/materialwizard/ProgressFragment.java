@@ -18,6 +18,6 @@ public class ProgressFragment extends PageFragment {
 
     @Override
     public String getTitle() {
-        return "Loading..";
+        return "Loading…";
     }
 }

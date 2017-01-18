@@ -1,17 +1,9 @@
 package kh.android.materialwizard;
 
-import android.graphics.Rect;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.CallSuper;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -19,6 +11,12 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import android.support.annotation.CallSuper;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
 
 /**
  * Created by liangyuteng0927 on 17-1-17.
@@ -277,19 +275,16 @@ public abstract class WizardActivity extends AppCompatActivity {
             params.height = 244;
             mAppBar.setLayoutParams(params);
             findViewById(R.id.status).setVisibility(View.GONE);
-        }
+        }+
         */
         // TODO: Add fade animation
         LinearLayout layout = (LinearLayout)findViewById(R.id.layout);
         if (expanded) {
-            layout.removeView(mAppBar);
-            mAppBar.removeView(mAppBarText);
+            mAppBar.setVisibility(View.GONE);
             layout.addView(mAppBarText);
         } else {
             layout.removeView(mAppBarText);
-            layout.addView(mAppBar);
-            //TODO:
-            mAppBar.addView(mAppBarText);
+            mAppBar.setVisibility(View.VISIBLE);
         }
     }
 
@@ -371,17 +366,46 @@ public abstract class WizardActivity extends AppCompatActivity {
      * Before show a temp page, back key will disabled.
      * @param fragment Page
      */
-    public void turnTempPage (PageFragment fragment) {
-        setNextVisibility(View.INVISIBLE);
-        setForwardVisibility(View.INVISIBLE);
-        mViewPager.setVisibility(View.GONE);
+    public void turnTempPage (final PageFragment fragment) {
         findViewById(R.id.frame_temp).setVisibility(View.VISIBLE);
-        mTempPage = fragment;
-        // TODO: Add fade animation
-        getSupportFragmentManager().beginTransaction()
-                .add(R.id.frame_temp, mTempPage)
-                .commitAllowingStateLoss();
-        AnimationUtil.changeText(fragment.getTitle(), mTextViewTitle);
+        AnimationUtil.fadeIn(findViewById(R.id.frame_temp), 200, new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+                AnimationUtil.changeText(fragment.getTitle(), mTextViewTitle);
+                AnimationUtil.fadeOut(mViewPager, 200, new Animation.AnimationListener() {
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+                        mViewPager.setVisibility(View.GONE);
+                        setNextVisibility(View.INVISIBLE);
+                        setForwardVisibility(View.INVISIBLE);
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+
+                    }
+                });
+                mTempPage = fragment;
+                getSupportFragmentManager().beginTransaction()
+                        .add(R.id.frame_temp, mTempPage)
+                        .commitAllowingStateLoss();
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
     }
 
     /**
@@ -390,14 +414,45 @@ public abstract class WizardActivity extends AppCompatActivity {
     public void dismissTempPage () {
         if (mTempPage == null)
             return;
-        setNextVisibility(View.VISIBLE);
-        setForwardVisibility(View.VISIBLE);
-        mViewPager.setVisibility(View.VISIBLE);
-        findViewById(R.id.frame_temp).setVisibility(View.GONE);
-        getSupportFragmentManager().beginTransaction()
-                .remove(mTempPage)
-                .commitAllowingStateLoss();
-        AnimationUtil.changeText(mPages.get(mViewPager.getCurrentItem()).getTitle(), mTextViewTitle);
-        mTempPage = null;
+        // TODO:以下这段100%掉坑注意
+        AnimationUtil.fadeOut(findViewById(R.id.frame_temp), 200, new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+                AnimationUtil.changeText(mPages.get(mViewPager.getCurrentItem()).getTitle(), mTextViewTitle);
+                mTempPage = null;
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                AnimationUtil.fadeIn(mViewPager, 200, new Animation.AnimationListener() {
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+                        mViewPager.setVisibility(View.VISIBLE);
+                        setNextVisibility(View.VISIBLE);
+                        setForwardVisibility(View.VISIBLE);
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+
+                    }
+                });
+                findViewById(R.id.frame_temp).setVisibility(View.GONE);
+                getSupportFragmentManager().beginTransaction()
+                        .remove(mTempPage)
+                        .commitAllowingStateLoss();
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        // TODO:以上这段100%掉坑注意
+        // 等能测试了再改吧…
     }
 }

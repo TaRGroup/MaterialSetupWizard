@@ -1,87 +1,99 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-	android:fitsSystemWindows="true"
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="match_parent"
-	android:layout_height="match_parent">
-	<LinearLayout
-		android:id="@+id/layout"
-		android:orientation="vertical"
-		android:layout_width="fill_parent"
-		android:layout_height="wrap_content">
-		<RelativeLayout
-			android:id="@+id/appbar"
-			android:layout_width="fill_parent"
-			android:layout_height="244dp">
-			<ImageView
-				android:id="@+id/header"
-				android:layout_height="wrap_content"
-				android:layout_width="match_parent"
-				android:src="@mipmap/common_setup_wizard_illustration_generic"
-				android:scaleType="fitXY" />
-			<include android:id="@+id/include_app_bar_text" layout="@layout/setup_text" />
-		</RelativeLayout>
-		<include android:id="@+id/include_text" layout="@layout/setup_text"
-			android:visibility="gone"/>
-	</LinearLayout>
-	<RelativeLayout
-		android:layout_gravity="bottom"
-		android:layout_below="@+id/layout"
-		android:layout_width="fill_parent"
-		android:layout_height="fill_parent">
-		<LinearLayout
-			android:layout_alignParentBottom="true"
-			android:layout_gravity="bottom"
-			android:id="@+id/buttonBar"
-			android:layout_width="fill_parent"
-			android:layout_height="wrap_content"
-			android:orientation="horizontal"
-			android:gravity="bottom"
-			android:layout_weight="1.0">
-			<LinearLayout
-				android:layout_width="match_parent"
-				android:layout_height="55dp"
-				android:orientation="horizontal"
-				android:background="#D9D9D9">
-				<Button
-					style="?android:attr/buttonBarButtonStyle"
-					android:layout_height="match_parent"
-					android:layout_width="wrap_content"
-					android:textColor="#383838"
-					android:drawableLeft="@drawable/ic_chevron_left_black_24dp"
-					android:layout_marginLeft="32dp"
-					android:text="@string/setup_step_before"
-					android:textSize="16dp"
-					android:id="@+id/buttonForward"/>
-				<LinearLayout
-					android:layout_height="match_parent"
-					android:layout_width="match_parent"
-					android:orientation="horizontal"
-					android:gravity="right">
-					<Button
-						style="?android:attr/buttonBarButtonStyle"
-						android:layout_height="match_parent"
-						android:layout_width="wrap_content"
-						android:text="@string/setup_step_next"
-						android:textColor="#383838"
-						android:layout_marginRight="32dp"
-						android:drawableRight="@drawable/ic_chevron_right_black_24dp"
-						android:textSize="16dp"
-						android:id="@+id/buttonNext"/>
-				</LinearLayout>
-			</LinearLayout>
-		</LinearLayout>
-		<android.support.v4.view.ViewPager
-			android:layout_width="match_parent"
-			android:id="@+id/pager"
-			android:layout_above="@+id/buttonBar"
-			android:layout_height="match_parent" />
-		<FrameLayout
-			android:visibility="gone"
-			android:layout_width="match_parent"
-			android:layout_height="match_parent"
-			android:id="@+id/frame_temp"
-			android:layout_above="@+id/buttonBar" />
-	</RelativeLayout>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
+
+    <LinearLayout
+        android:id="@+id/layout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/appbar"
+            android:layout_width="fill_parent"
+            android:layout_height="256dp">
+
+            <ImageView
+                android:id="@+id/header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scaleType="centerCrop"
+                android:src="@mipmap/common_setup_wizard_illustration_generic" />
+
+            <include
+                android:id="@+id/include_app_bar_text"
+                layout="@layout/setup_text" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/layout"
+        android:layout_gravity="bottom">
+
+        <LinearLayout
+            android:id="@+id/buttonBar"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="bottom"
+            android:gravity="bottom"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:background="#D9D9D9"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/buttonForward"
+                    style="?android:attr/buttonBarButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="24dp"
+                    android:drawableLeft="@drawable/ic_chevron_left_black_24dp"
+                    android:text="@string/setup_step_before"
+                    android:textColor="#383838"
+                    android:textSize="16sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="right"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/buttonNext"
+                        style="?android:attr/buttonBarButtonStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="24dp"
+                        android:drawableRight="@drawable/ic_chevron_right_black_24dp"
+                        android:text="@string/setup_step_next"
+                        android:textColor="#383838"
+                        android:textSize="16sp" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/buttonBar" />
+
+        <FrameLayout
+            android:id="@+id/frame_temp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/buttonBar"
+            android:visibility="gone" />
+    </RelativeLayout>
 </RelativeLayout>
 

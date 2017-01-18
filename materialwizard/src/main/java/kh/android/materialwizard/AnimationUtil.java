@@ -11,51 +11,55 @@ import android.widget.TextView;
  * Email: liangyuteng12345@gmail.com
  */
 
-final class AnimationUtil {
+public final class AnimationUtil {
     public static void changeText (final String newText, final TextView textView) {
-        AnimationSet as1=new AnimationSet(true);
-        AlphaAnimation aa1=new AlphaAnimation(1,0);
-        aa1.setDuration(200);
-        as1.addAnimation(aa1);
-        textView.startAnimation(as1);
-        as1.setAnimationListener(new Animation.AnimationListener(){
-
+        fadeOut(textView,200,new Animation.AnimationListener() {
             @Override
-            public void onAnimationStart(Animation p1)
-            {
-                // TODO: Implement this method
+            public void onAnimationStart(Animation p1) {
+                // Should do something, but this method is useless yet…
             }
 
             @Override
-            public void onAnimationEnd(Animation p1)
-            {
-                textView.setVisibility(View.GONE);
+            public void onAnimationEnd(Animation p1) {
                 textView.setText(newText);
-                AnimationSet as=new AnimationSet(true);
-                AlphaAnimation aa=new AlphaAnimation(0,1);
-                aa.setDuration(200);
-                as.addAnimation(aa);
-                textView.startAnimation(as);
-                as.setAnimationListener(new Animation.AnimationListener(){
-
-                    @Override
-                    public void onAnimationStart(Animation p1) {
-                    }
-
-                    @Override
-                    public void onAnimationEnd(Animation p1) {
-                        textView.setVisibility(View.VISIBLE);
-                    }
-
-                    @Override
-                    public void onAnimationRepeat(Animation p1) {
-                    }
-                });
+                fadeIn(textView,200,null);
             }
 
             @Override
             public void onAnimationRepeat(Animation p1) {
+                // Google thinks that this method should also do something!
+                // Why there are so many useless methods in the API?
             }
         });
+    }
+
+    /**
+     * @author Rachel
+     * @param v View you want to fade out
+     * @param duration Time anim lasts
+     * @param listener What do you want to do in the end or when anim starts?
+     */
+    public static void fadeOut(View v,long duration,Animation.AnimationListener listener){
+        // Basic Animation definition
+        AlphaAnimation fadeOutAnimation = new AlphaAnimation(1,0);
+        fadeOutAnimation.setDuration(duration);
+        if (listener != null)
+            fadeOutAnimation.setAnimationListener(listener);
+        v.startAnimation(fadeOutAnimation);
+    }
+
+    /**
+     * @author Rachel
+     * @param v View you want to fade in
+     * @param duration Time anim lasts
+     * @param listener What do you want to do in the end or when anim starts?
+     */
+    public static void fadeIn(View v,long duration,Animation.AnimationListener listener){
+        // Again, just basic Animation definition
+        AlphaAnimation fadeInAnimation = new AlphaAnimation(0,1);
+        fadeInAnimation.setDuration(duration);
+        if (listener != null)
+            fadeInAnimation.setAnimationListener(listener);
+        v.startAnimation(fadeInAnimation);
     }
 }

@@ -4,7 +4,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
 
+import kh.android.materialwizard.AnimationUtil;
 import kh.android.materialwizard.ProgressFragment;
 
 /**
@@ -15,8 +17,9 @@ import kh.android.materialwizard.ProgressFragment;
 public class ProgressFragmentTemp extends ProgressFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup viewGroup, Bundle bundle) {
-        View view = super.onCreateView(inflater, viewGroup, bundle);
-        view.setOnClickListener(new View.OnClickListener() {
+        final View view = super.onCreateView(inflater, viewGroup, bundle);
+        android.widget.Button dismissButton = (android.widget.Button)view.findViewById(R.id.dismiss);
+        dismissButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getWizardActivity().dismissTempPage();
