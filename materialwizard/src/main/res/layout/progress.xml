@@ -7,9 +7,4 @@
         android:indeterminate="true"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" />
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="DISMISS"
-        android:id="@+id/dismiss"/>
 </LinearLayout>

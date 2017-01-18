@@ -387,7 +387,7 @@ public abstract class WizardActivity extends AppCompatActivity {
         AnimationUtil.fadeIn(findViewById(R.id.frame_temp), 200, new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
-                AnimationUtil.changeText(fragment.getTitle(), mTextViewTitle);
+                AnimationUtil.changeText(fragment.getTitle(WizardActivity.this), mTextViewTitle);
                 AnimationUtil.fadeOut(mViewPager, 200, new Animation.AnimationListener() {
                     @Override
                     public void onAnimationStart(Animation animation) {
@@ -430,37 +430,28 @@ public abstract class WizardActivity extends AppCompatActivity {
     public void dismissTempPage () {
         if (mTempPage == null)
             return;
-        // TODO:以下这段100%掉坑注意
+        // 以下这段100%掉坑注意
         AnimationUtil.fadeOut(findViewById(R.id.frame_temp), 200, new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
-                AnimationUtil.changeText(mPages.get(mViewPager.getCurrentItem()).getTitle(), mTextViewTitle);
-                mTempPage = null;
+                mViewPager.setVisibility(View.VISIBLE);
+                setNextVisibility(View.VISIBLE);
+                setForwardVisibility(View.VISIBLE);
+                String title = getString(R.string.app_name);
+                try {
+                    title = mPages.get(mViewPager.getCurrentItem())
+                            .getTitle(WizardActivity.this);
+                } catch (IndexOutOfBoundsException e) {}
+                AnimationUtil.changeText(title, mTextViewTitle);
             }
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                AnimationUtil.fadeIn(mViewPager, 200, new Animation.AnimationListener() {
-                    @Override
-                    public void onAnimationStart(Animation animation) {
-                        mViewPager.setVisibility(View.VISIBLE);
-                        setNextVisibility(View.VISIBLE);
-                        setForwardVisibility(View.VISIBLE);
-                    }
-
-                    @Override
-                    public void onAnimationEnd(Animation animation) {
-                    }
-
-                    @Override
-                    public void onAnimationRepeat(Animation animation) {
-
-                    }
-                });
-                findViewById(R.id.frame_temp).setVisibility(View.GONE);
                 getSupportFragmentManager().beginTransaction()
                         .remove(mTempPage)
                         .commitAllowingStateLoss();
+                mTempPage = null;
+                findViewById(R.id.frame_temp).setVisibility(View.GONE);
             }
 
             @Override
@@ -468,7 +459,7 @@ public abstract class WizardActivity extends AppCompatActivity {
 
             }
         });
-        // TODO:以上这段100%掉坑注意
+        // 以上这段100%掉坑注意
         // 等能测试了再改吧…
     }
 
@@ -491,6 +482,7 @@ public abstract class WizardActivity extends AppCompatActivity {
      * Update current page title
      */
     public void updateTitle () {
+        // TODO: Change title background image
         AnimationUtil.changeText(mPages.get(getCurrentPage()).getTitle(WizardActivity.this), mTextViewTitle);
     }
 }

@@ -3,7 +3,7 @@ Beautiful, highly Google-like setting up experience, for your Android device onl
 Support API 11+.
 
 喜欢的话别忘了 **Star** 和 **Watch**，有问题随意**Issues**~
-![Screenshot1]()![Screenshot2]()
+![Screenshot1](https://raw.githubusercontent.com/TaRGroup/MaterialSetupWizard/master/image/screenshot-1-device-2017-01-18-131830.png)![Screenshot2](https://raw.githubusercontent.com/TaRGroup/MaterialSetupWizard/master/image/screenshot-2-photo6339210114027857836.jpg)
 
 # 用法
 ## 添加依赖
@@ -28,7 +28,7 @@ public class Act extends WizardActivity {
 
 这时候运行这个Activity，就可以看到一个空白的设置向导页面了。
 
-![Screenshot-EmptyWizard]()
+![Screenshot-EmptyWizard](https://raw.githubusercontent.com/TaRGroup/MaterialSetupWizard/master/image/screenshot-1-device-2017-01-18-131830.png)
 
 ## 创建页面
 页面是以Fragment形式放置的。现在创建一个类，继承 `PageFragment` 并
@@ -71,7 +71,7 @@ public class Act extends WizardActivity {
 
 _由于Page2返回了空的视图，所以不会显示任何部件。但是您可以从标题看到已经变成了Page2所设定的标题_
 
-![Screenshot-Page2]()
+![Screenshot-Page2](https://raw.githubusercontent.com/TaRGroup/MaterialSetupWizard/master/image/page-2-device-2017-01-18-133204.png)
 
 ## 临时页面
 通常在设置向导都会有一些耗时操作，比如注册账户。需要向用户提供一个进度条界面。
@@ -99,7 +99,7 @@ public class Act extends WizardActivity {
 }
 ```
 运行程序，只有进度条的临时页面被显示了。同时用户无法回退，前进。
-![Screenshot-Temp-Page]()
+![Screenshot-Temp-Page](https://raw.githubusercontent.com/TaRGroup/MaterialSetupWizard/master/image/tenp-pagedevice-2017-01-18-135052.png)
 
 ## 禁用返回键规则
 在符合以下逻辑时，WizardActivity会阻止用户点击返回键。您也可以重写`onBackPressed` 来执行您的操作。
