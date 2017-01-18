@@ -1,7 +1,12 @@
 # MaterialSetupWizard
+[![](https://jitpack.io/v/TaRGroup/MaterialSetupWizard.svg)](https://jitpack.io/#TaRGroup/MaterialSetupWizard)
+
 Beautiful, highly Google-like setting up experience, for your Android device only.
 Support API 11+.
-[![](https://jitpack.io/v/TaRGroup/MaterialSetupWizard.svg)](https://jitpack.io/#TaRGroup/MaterialSetupWizard)
+
+**仍在测试中！有Bug请提交Issues！**
+
+感谢项目 [FcLogcat](https://github.com/Alcatraz323/fclogcat)
 
 喜欢的话别忘了 **Star** 和 **Watch**，有问题随意**Issues**~
 ![Screenshot1](https://raw.githubusercontent.com/TaRGroup/MaterialSetupWizard/master/image/screenshot-1-device-2017-01-18-131830.png)![Screenshot2](https://raw.githubusercontent.com/TaRGroup/MaterialSetupWizard/master/image/screenshot-2-photo6339210114027857836.jpg)
