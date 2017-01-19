@@ -1,7 +1,10 @@
 package kh.android.materialsetupwizard;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +18,8 @@ import kh.android.materialwizard.ProgressFragment;
  */
 
 public class Page1 extends PageFragment implements View.OnClickListener{
+    private String mTitle = "Page1";
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup viewGroup, Bundle bundle) {
         View view = inflater.inflate(R.layout.page1, viewGroup, false);
@@ -22,12 +27,16 @@ public class Page1 extends PageFragment implements View.OnClickListener{
         view.findViewById(R.id.button_collapse_app_bar).setOnClickListener(this);
         view.findViewById(R.id.button_expand_app_bar).setOnClickListener(this);
         view.findViewById(R.id.button_swipe).setOnClickListener(this);
+        view.findViewById(R.id.button_change_title).setOnClickListener(this);
+        view.findViewById(R.id.button_restore_title).setOnClickListener(this);
+        view.findViewById(R.id.button_change_header).setOnClickListener(this);
+        view.findViewById(R.id.button_restore_header).setOnClickListener(this);
         return view;
     }
 
     @Override
     public String getTitle(Context context) {
-        return "Page1";
+        return mTitle;
     }
 
     @Override
@@ -46,6 +55,22 @@ public class Page1 extends PageFragment implements View.OnClickListener{
                 getWizardActivity().setEnableSwipe(
                         !getWizardActivity().getEnableSwipe()
                 );
+                break;
+            case R.id.button_change_title :
+                mTitle = "Ha?";
+                getWizardActivity().updateTitle();
+                break;
+            case R.id.button_restore_title :
+                mTitle = "Page1";
+                getWizardActivity().updateTitle();
+                break;
+            case R.id.button_change_header :
+                setTitleBackgroundImage(ContextCompat.getDrawable(getWizardActivity(), R.drawable.common_setup_wizard_illustration_generic_wide));
+                getWizardActivity().updateTitle();
+                break;
+            case R.id.button_restore_header :
+                setTitleBackgroundImage(null);
+                getWizardActivity().updateTitle();
                 break;
         }
     }

@@ -14,10 +14,10 @@ public class Act extends WizardActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //addPage(new Page1());
-        //addPage(new Page2());
+        addPage(new Page1());
+        addPage(new Page2());
         //addPage(new ProgressFragmentTemp());
-        //turnPage(0);
-        turnTempPage(new ProgressFragment());
+        turnPage(0);
+        //turnTempPage(new ProgressFragment());
     }
 }

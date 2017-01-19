@@ -1,5 +1,6 @@
 package kh.android.materialwizard;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
 import android.support.v4.app.Fragment;
@@ -9,18 +10,13 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import android.support.annotation.CallSuper;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 
 /**
  * Created by liangyuteng0927 on 17-1-17.
@@ -38,6 +34,7 @@ public abstract class WizardActivity extends AppCompatActivity {
     private PageFragment mTempPage;
     private RelativeLayout mAppBar;
     private View mAppBarText;
+    private ImageView mHeader;
     @Override
     @CallSuper
     public void onCreate(Bundle savedInstanceState) {
@@ -48,6 +45,7 @@ public abstract class WizardActivity extends AppCompatActivity {
         mTextViewTitle = (TextView) findViewById(R.id.setupTextView1);
         mAppBar = (RelativeLayout)findViewById(R.id.appbar);
         mAppBarText = findViewById(R.id.include_app_bar_text);
+        mHeader = (ImageView)findViewById(R.id.header);
         mPages = new ArrayList<>();
         mButtonForward = (Button)findViewById(R.id.buttonForward);
         mButtonNext = (Button)findViewById(R.id.buttonNext);
@@ -79,7 +77,7 @@ public abstract class WizardActivity extends AppCompatActivity {
             @Override
             public void onPageSelected(int p1) {
                 updateButton();
-                AnimationUtil.changeText(mPages.get(p1).getTitle(WizardActivity.this), mTextViewTitle);
+                updateTitle(p1);
             }
 
             @Override
@@ -134,6 +132,41 @@ public abstract class WizardActivity extends AppCompatActivity {
         }
         super.onBackPressed();
     }
+    private void updateTitle (int index) {
+        updateTitle(mPages.get(index));
+    }
+    private void updateTitle (PageFragment fragment) {
+        changeHeaderImage(fragment.getTitleBackgroundImage());
+        AnimationUtil.changeText(fragment.getTitle(WizardActivity.this), mTextViewTitle);
+    }
+    private void reset () {
+        changeHeaderImage(null);
+        AnimationUtil.changeText(getString(R.string.app_name), mTextViewTitle);
+    }
+
+    private void changeHeaderImage (final Drawable drawable) {
+        // TODO:判断drawable是否变化。会闪烁白色
+        AnimationUtil.fadeIn(mHeader, 100, new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                if (drawable == null) {
+                    mHeader.setImageResource(R.mipmap.common_setup_wizard_illustration_generic);
+                } else {
+                    mHeader.setImageDrawable(drawable);
+                }
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+    }
 
     /* API */
     /**
@@ -146,7 +179,7 @@ public abstract class WizardActivity extends AppCompatActivity {
         updateButton();
         if (mPages.size() == 1) {
             // This is first page.
-            AnimationUtil.changeText(fragment.getTitle(WizardActivity.this), mTextViewTitle);
+            updateTitle(fragment);
         }
     }
 
@@ -160,7 +193,7 @@ public abstract class WizardActivity extends AppCompatActivity {
         updateButton();
         if (mPages.size() == 0) {
             // This is last page.
-            AnimationUtil.changeText(getString(R.string.app_name), mTextViewTitle);
+            reset();
         }
     }
 
@@ -174,7 +207,7 @@ public abstract class WizardActivity extends AppCompatActivity {
         updateButton();
         if (mPages.size() == 0) {
             // This is last page.
-            AnimationUtil.changeText(getString(R.string.app_name), mTextViewTitle);
+            reset();
         }
     }
 
@@ -293,7 +326,7 @@ public abstract class WizardActivity extends AppCompatActivity {
             findViewById(R.id.status).setVisibility(View.GONE);
         }+
         */
-        // TODO: Add fade animation
+        // TODO: 重写
         LinearLayout layout = (LinearLayout)findViewById(R.id.layout);
         if (expanded) {
             mAppBar.setVisibility(View.GONE);
@@ -482,7 +515,6 @@ public abstract class WizardActivity extends AppCompatActivity {
      * Update current page title
      */
     public void updateTitle () {
-        // TODO: Change title background image
-        AnimationUtil.changeText(mPages.get(getCurrentPage()).getTitle(WizardActivity.this), mTextViewTitle);
+        updateTitle(mPages.get(getCurrentPage()));
     }
 }

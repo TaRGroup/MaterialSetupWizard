@@ -35,11 +35,7 @@ public abstract class PageFragment extends Fragment {
      * @param drawable Image, if equals null, will set default image.
      */
     public void setTitleBackgroundImage (Drawable drawable) {
-        if (drawable == null) {
-            mTitleBackgroundImage = getResources().getDrawable(R.mipmap.common_setup_wizard_illustration_generic);
-        } else {
-            mTitleBackgroundImage = drawable;
-        }
+        mTitleBackgroundImage = drawable;
     }
 
     /**
