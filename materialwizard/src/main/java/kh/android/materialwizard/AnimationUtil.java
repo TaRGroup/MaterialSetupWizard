@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 final class AnimationUtil {
     static void changeText (final String newText, final TextView textView) {
-        fadeOut(textView,200,new Animation.AnimationListener() {
+        fade(textView,200,new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation p1) {
                 // Should do something, but this method is useless yet…
@@ -22,7 +22,7 @@ final class AnimationUtil {
             @Override
             public void onAnimationEnd(Animation p1) {
                 textView.setText(newText);
-                fadeIn(textView,200,null);
+                fade(textView,200,null,0,1);
             }
 
             @Override
@@ -30,35 +30,22 @@ final class AnimationUtil {
                 // Google thinks that this method should also do something!
                 // Why there are so many useless methods in the API?
             }
-        });
+        },1,0);
     }
     /**
      * @author Rachel
      * @param v View you want to fade out
      * @param duration Time anim lasts
      * @param listener What do you want to do in the end or when anim starts?
+     * @param from alpha when anim starts
+     * @param to alpha when anim stops
      */
-    static void fadeOut(View v,long duration,Animation.AnimationListener listener){
+    static void fade(View v,long duration,Animation.AnimationListener listener,float from,float to){
         // Basic Animation definition
-        AlphaAnimation fadeOutAnimation = new AlphaAnimation(1,0);
+        AlphaAnimation fadeOutAnimation = new AlphaAnimation(from,to);
         fadeOutAnimation.setDuration(duration);
         if (listener != null)
             fadeOutAnimation.setAnimationListener(listener);
         v.startAnimation(fadeOutAnimation);
-    }
-
-    /**
-     * @author Rachel
-     * @param v View you want to fade in
-     * @param duration Time anim lasts
-     * @param listener What do you want to do in the end or when anim starts?
-     */
-    static void fadeIn(View v,long duration,Animation.AnimationListener listener){
-        // Again, just basic Animation definition
-        AlphaAnimation fadeInAnimation = new AlphaAnimation(0,1);
-        fadeInAnimation.setDuration(duration);
-        if (listener != null)
-            fadeInAnimation.setAnimationListener(listener);
-        v.startAnimation(fadeInAnimation);
     }
 }

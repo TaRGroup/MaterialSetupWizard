@@ -1,15 +1,21 @@
 package kh.android.materialwizard;
 
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.CallSuper;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v7.app.AppCompatActivity;
+import android.util.DisplayMetrics;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -32,8 +38,8 @@ public abstract class WizardActivity extends AppCompatActivity {
     private Button mButtonNext;
     private boolean mAutoUpdateButton = true;
     private PageFragment mTempPage;
-    private RelativeLayout mAppBar;
-    private View mAppBarText;
+    private FrameLayout mAppBar;
+    private RelativeLayout mAppBarText;
     private ImageView mHeader;
     @Override
     @CallSuper
@@ -43,8 +49,8 @@ public abstract class WizardActivity extends AppCompatActivity {
         setContentView(R.layout.setup);
         mViewPager = (WizardViewPager) findViewById(R.id.pager);
         mTextViewTitle = (TextView) findViewById(R.id.setupTextView1);
-        mAppBar = (RelativeLayout)findViewById(R.id.appbar);
-        mAppBarText = findViewById(R.id.include_app_bar_text);
+        mAppBar = (FrameLayout)findViewById(R.id.appbar);
+        mAppBarText = (RelativeLayout)findViewById(R.id.include_app_bar_text);
         mHeader = (ImageView)findViewById(R.id.header);
         mPages = new ArrayList<>();
         mButtonForward = (Button)findViewById(R.id.buttonForward);
@@ -145,27 +151,33 @@ public abstract class WizardActivity extends AppCompatActivity {
     }
 
     private void changeHeaderImage (final Drawable drawable) {
-        // TODO:判断drawable是否变化。会闪烁白色
-        AnimationUtil.fadeIn(mHeader, 100, new Animation.AnimationListener() {
+        // 判断drawable是否变化。会闪烁白色
+        // 因为你没淡出啊…
+        AnimationUtil.fade(mHeader, 100, new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
-
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (drawable == null) {
+                            mHeader.setImageResource(R.mipmap.common_setup_wizard_illustration_generic);
+                        } else {
+                            mHeader.setImageDrawable(drawable);
+                        }
+                        AnimationUtil.fade(mHeader, 100, null, 0.75f, 1);
+                    }
+                }, 50);
             }
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                if (drawable == null) {
-                    mHeader.setImageResource(R.mipmap.common_setup_wizard_illustration_generic);
-                } else {
-                    mHeader.setImageDrawable(drawable);
-                }
             }
 
             @Override
             public void onAnimationRepeat(Animation animation) {
 
             }
-        });
+        },1,0.75f);
     }
 
     /* API */
@@ -328,12 +340,29 @@ public abstract class WizardActivity extends AppCompatActivity {
         */
         // TODO: 重写
         LinearLayout layout = (LinearLayout)findViewById(R.id.layout);
+        boolean isMarshmallow = Build.VERSION.SDK_INT >= Build.VERSION_CODES.M;
+        boolean isKitkat = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
+        int statusBarHeight = 0;
+        if (isMarshmallow)
+            statusBarHeight = 24;
+        else if (isKitkat)
+            statusBarHeight = 25;
         if (expanded) {
-            mAppBar.setVisibility(View.GONE);
+            mAppBar.removeView(mAppBarText);
             layout.addView(mAppBarText);
+            mAppBar.setVisibility(View.GONE);
+            ViewGroup.LayoutParams params = mAppBarText.getLayoutParams();
+            params.height = dpToPx(statusBarHeight + 64);
+            mAppBarText.setLayoutParams(params);
+            mAppBarText.findViewById(R.id.setupTextView1).setPadding(0,dpToPx(statusBarHeight),0,0);
         } else {
             layout.removeView(mAppBarText);
+            mAppBar.addView(mAppBarText);
             mAppBar.setVisibility(View.VISIBLE);
+            FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,dpToPx(64));
+            layoutParams.gravity = Gravity.BOTTOM;
+            mAppBarText.setLayoutParams(layoutParams);
+            mAppBarText.findViewById(R.id.setupTextView1).setPadding(0,0,0,0);
         }
     }
 
@@ -417,11 +446,11 @@ public abstract class WizardActivity extends AppCompatActivity {
      */
     public void turnTempPage (final PageFragment fragment) {
         findViewById(R.id.frame_temp).setVisibility(View.VISIBLE);
-        AnimationUtil.fadeIn(findViewById(R.id.frame_temp), 200, new Animation.AnimationListener() {
+        AnimationUtil.fade(findViewById(R.id.frame_temp), 200, new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
                 AnimationUtil.changeText(fragment.getTitle(WizardActivity.this), mTextViewTitle);
-                AnimationUtil.fadeOut(mViewPager, 200, new Animation.AnimationListener() {
+                AnimationUtil.fade(mViewPager, 200, new Animation.AnimationListener() {
                     @Override
                     public void onAnimationStart(Animation animation) {
 
@@ -438,7 +467,7 @@ public abstract class WizardActivity extends AppCompatActivity {
                     public void onAnimationRepeat(Animation animation) {
 
                     }
-                });
+                },1,0);
                 mTempPage = fragment;
                 getSupportFragmentManager().beginTransaction()
                         .add(R.id.frame_temp, mTempPage)
@@ -454,7 +483,7 @@ public abstract class WizardActivity extends AppCompatActivity {
             public void onAnimationRepeat(Animation animation) {
 
             }
-        });
+        },0,1);
     }
 
     /**
@@ -464,7 +493,7 @@ public abstract class WizardActivity extends AppCompatActivity {
         if (mTempPage == null)
             return;
         // 以下这段100%掉坑注意
-        AnimationUtil.fadeOut(findViewById(R.id.frame_temp), 200, new Animation.AnimationListener() {
+        AnimationUtil.fade(findViewById(R.id.frame_temp), 200, new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
                 mViewPager.setVisibility(View.VISIBLE);
@@ -491,7 +520,7 @@ public abstract class WizardActivity extends AppCompatActivity {
             public void onAnimationRepeat(Animation animation) {
 
             }
-        });
+        },1,0);
         // 以上这段100%掉坑注意
         // 等能测试了再改吧…
     }
@@ -516,5 +545,16 @@ public abstract class WizardActivity extends AppCompatActivity {
      */
     public void updateTitle () {
         updateTitle(mPages.get(getCurrentPage()));
+    }
+
+    /**
+     * Turn dip into px.
+     * ONLY FOR EXPANDING!
+     * @param dp dip value
+     * @return px value
+     */
+    private int dpToPx(int dp){
+        DisplayMetrics displayMestrics = getResources().getDisplayMetrics();
+        return Math.round(dp * (displayMestrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
     }
 }
