@@ -24,7 +24,7 @@ Support API 11+.
 ```
 2. 添加依赖：
 ```grooxy
-compile 'com.github.TaRGroup:MaterialSetupWizard:alpha1'
+compile 'com.github.TaRGroup:MaterialSetupWizard:-SNAPSHOT'
 ```
 ## 创建WizardActivity
 你需要创建一个新的类，将其继承 `WizardActivity`:
