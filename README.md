@@ -9,6 +9,7 @@ Support API 11+.
 感谢项目 [FcLogcat](https://github.com/Alcatraz323/fclogcat)
 
 喜欢的话别忘了 **Star** 和 **Watch**，有问题随意**Issues**~
+
 ![Screenshot1](https://raw.githubusercontent.com/TaRGroup/MaterialSetupWizard/master/image/screenshot-1-device-2017-01-18-131830.png)![Screenshot2](https://raw.githubusercontent.com/TaRGroup/MaterialSetupWizard/master/image/screenshot-2-photo6339210114027857836.jpg)
 
 # 用法
@@ -117,6 +118,7 @@ public class Act extends WizardActivity {
 }
 ```
 运行程序，只有进度条的临时页面被显示了。同时用户无法回退，前进。
+
 ![Screenshot-Temp-Page](https://raw.githubusercontent.com/TaRGroup/MaterialSetupWizard/master/image/tenp-pagedevice-2017-01-18-135052.png)
 
 ## 禁用返回键规则
