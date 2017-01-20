@@ -338,7 +338,6 @@ public abstract class WizardActivity extends AppCompatActivity {
             findViewById(R.id.status).setVisibility(View.GONE);
         }+
         */
-        // TODO: 重写
         LinearLayout layout = (LinearLayout)findViewById(R.id.layout);
         boolean isMarshmallow = Build.VERSION.SDK_INT >= Build.VERSION_CODES.M;
         boolean isKitkat = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
@@ -347,7 +346,7 @@ public abstract class WizardActivity extends AppCompatActivity {
             statusBarHeight = 24;
         else if (isKitkat)
             statusBarHeight = 25;
-        if (expanded) {
+        if (!expanded) {
             mAppBar.removeView(mAppBarText);
             layout.addView(mAppBarText);
             mAppBar.setVisibility(View.GONE);

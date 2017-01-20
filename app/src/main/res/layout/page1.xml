@@ -13,13 +13,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
             <Button
-                android:id="@+id/button_expand_app_bar"
-                android:text="EXPAND BAR"
+                android:id="@+id/button_collapse_app_bar"
+                android:text="COLLAPSE BAR"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
             <Button
-                android:id="@+id/button_collapse_app_bar"
-                android:text="COLLAPSE BAR"
+                android:id="@+id/button_expand_app_bar"
+                android:text="EXPAND BAR"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
             <Button
