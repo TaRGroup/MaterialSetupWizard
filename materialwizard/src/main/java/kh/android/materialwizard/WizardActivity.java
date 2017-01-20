@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.support.annotation.CallSuper;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
@@ -58,6 +59,7 @@ public abstract class WizardActivity extends AppCompatActivity {
         mButtonForward.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                onForwardClicked();
                 if (mViewPager.getCurrentItem() > 0) {
                     mViewPager.setCurrentItem(mViewPager.getCurrentItem() - 1);
                 }
@@ -66,6 +68,7 @@ public abstract class WizardActivity extends AppCompatActivity {
         mButtonNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                onNextClicked();
                 if (mViewPager.getCurrentItem() < mPages.size() - 1) {
                     mViewPager.setCurrentItem(mViewPager.getCurrentItem() + 1);
                 } else {
@@ -93,7 +96,7 @@ public abstract class WizardActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
                 WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
     }
-    private class Adapter extends FragmentPagerAdapter {
+    private class Adapter extends FragmentStatePagerAdapter {
         Adapter() {
             super(getSupportFragmentManager());
         }
@@ -181,6 +184,17 @@ public abstract class WizardActivity extends AppCompatActivity {
     }
 
     /* API */
+
+    /**
+     * When NEXT Button click
+     */
+    public void onNextClicked () {}
+
+    /**
+     * When FORWARD Button click
+     */
+    public void onForwardClicked () {}
+
     /**
      * Add a page
      * @param fragment Page

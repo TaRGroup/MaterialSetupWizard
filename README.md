@@ -42,7 +42,7 @@ public class Act extends WizardActivity {
 }
 ```
 **记住！必须执行`super.onCreate` 且不能执行 `setContentView`!
-因为执行`setContentView`会覆盖已经配置好的向导视图！
+因为执行`setContentView`会覆盖已经配置好的向导视图！**
 
 这时候运行这个Activity，就可以看到一个空白的设置向导页面了。
 
@@ -169,6 +169,10 @@ _以下方法均有**getter**方法_
 设置按钮栏显示状态 `setButtonBarVisibility (int visibility)`
 
 设置是否允许用户通过左右滑动控制页面（默认false） `setAppBarExpanded (boolean expanded)`
+
+当**下一步**按钮被点击时，会触发该方法。您可以重写它来检测下一步的操作。 `onNextClicked()`
+
+当**上一步**按钮被点击时，会触发该方法。您可以重写它来检测上一步的操作。 `onForwardClicked()`
 
 ### `PageFragment`
 

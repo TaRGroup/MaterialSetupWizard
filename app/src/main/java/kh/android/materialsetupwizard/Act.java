@@ -17,7 +17,7 @@ public class Act extends WizardActivity {
         addPage(new Page1());
         addPage(new Page2());
         //addPage(new ProgressFragmentTemp());
-        turnPage(0);
+        //turnPage(0);
         //turnTempPage(new ProgressFragment());
     }
 }
